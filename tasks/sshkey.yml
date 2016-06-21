@@ -1,0 +1,45 @@
+---
+- name: get backup users home directory
+  shell: >
+    grep "^{{ attic_backup_user }}" /etc/passwd | awk -F: '{ print $6 }'
+  changed_when: false
+  register: backup_user_home
+  tags:
+    - sshkey
+
+- name: set backup user home fact
+  set_fact:
+    attic_backup_user_home: "{{ backup_user_home.stdout }}"
+  tags:
+    - sshkey
+
+- name: ensure .ssh directory exists.
+  file: 
+    dest: "{{ attic_backup_user_home }}/.ssh"
+    mode: 0700 
+    owner: "{{ attic_backup_user }}" 
+    state: directory
+  tags:
+    - sshkey
+
+- name: install ssh key
+  copy: 
+    content: "{{ attic_backup_user_private_key }}" 
+    dest: "{{ attic_backup_user_home }}/.ssh/attic.priv"
+    mode: 0600
+    owner: "{{ attic_backup_user }}"
+    backup: yes
+  tags:
+    - sshkey
+
+- name: copying ssh config
+  template:
+    src: ssh_config.j2
+    dest: "{{ attic_backup_user_home }}/.ssh/config"
+    owner: "{{ attic_backup_user }}"
+    group: "{{ attic_backup_user }}"
+    mode: 0600
+    follow: yes
+    backup: yes
+  tags:
+    - sshkey

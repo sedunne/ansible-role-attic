@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+# env vars to override some hard-coded options
+BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK=yes
+BORG_RELOCATED_REPO_ACCESS_IS_OK=yes
+BORG_CACHE_DIR={{ attic_cache_directory }}
+SHELL=/bin/bash
+{{ attic_cron_minute }} {{ attic_cron_hour }} {{ attic_cron_day }} {{ attic_cron_month }} {{ attic_cron_weekday }} {{ attic_cron_user}} /bin/bash {{ attic_script_path }}

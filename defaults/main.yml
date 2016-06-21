@@ -1,0 +1,27 @@
+---
+attic_package_name: attic
+attic_script_path: '/usr/local/sbin/atticbackup.sh'
+attic_log_path: '/var/log/attic.log'
+attic_cache_directory: '~/.cache/attic'
+attic_bin_name: attic
+attic_manage_package: True
+attic_package_state: True
+attic_manage_ssh_key: False
+attic_is_borg: False
+
+attic_init_command: 'init'
+attic_create_command: 'create --stats'
+attic_prune_command: 'prune -v'
+
+attic_backup_user: root
+attic_server_user: attic
+attic_server_name: '127.0.0.1'
+attic_backup_path: '/home/'
+attic_days_keep: 30
+
+attic_cron_user: root
+attic_cron_minute: 0
+attic_cron_hour: 0
+attic_cron_day: '*'
+attic_cron_month: '*'
+attic_cron_weekday: '*'

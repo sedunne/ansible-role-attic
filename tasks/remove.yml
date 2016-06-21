@@ -1,0 +1,37 @@
+---
+- name: remove attic package
+  yum:
+    name: "{{ attic_package_name }}"
+    state: absent
+  tags:
+    - remove 
+
+- name: remove cache directory
+  file:
+    dest: "{{ attic_cache_directory }}"
+    state: absent
+  tags:
+    - remove
+
+- name: remove backup script
+  file:
+    dest: "{{ attic_script_path }}"
+    state: absent
+  tags:
+    - remove
+
+- name: remove borg cron
+  file:
+    path: '/etc/cron.d/borg'
+    state: absent
+  when: "{{ attic_is_borg }} == False"
+  tags:
+    - remove
+
+- name: remove attic cron
+  file:
+    path: '/etc/cron.d/attic'
+    state: absent
+  when: "{{ attic_is_borg }} == True"
+  tags:
+    - remove

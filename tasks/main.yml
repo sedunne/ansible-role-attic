@@ -1,0 +1,9 @@
+---
+- include: install.yml
+  when: attic_manage_package
+- include: script.yml
+- include: cron.yml
+- include: sshkey.yml
+  when: attic_manage_ssh_key
+- include: remove.yml
+  when: attic_package_state == 'absent'

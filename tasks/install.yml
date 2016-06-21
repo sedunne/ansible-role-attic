@@ -1,0 +1,18 @@
+---
+- name: install attic package
+  yum:
+    name: "{{ attic_package_name }}"
+    state: "{{ attic_package_state }}"
+  tags:
+    - install
+    - package
+
+- name: ensure cache directory exists
+  file:
+    dest: "{{ attic_cache_directory }}"
+    mode: 0700
+    owner: "{{ attic_backup_user }}"
+    state: directory
+  tags:
+    - install
+    - package

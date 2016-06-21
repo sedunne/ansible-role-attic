@@ -1,0 +1,12 @@
+---
+- name: creating backup script
+  template:
+    src: atticbackup.sh.j2
+    dest: "{{ attic_script_path }}"
+    owner: root
+    group: root
+    mode: 0700
+    follow: yes
+  tags:
+    - install
+    - script

@@ -1,0 +1,44 @@
+---
+- name: adding attic cron
+  template:
+    src: attic_cron.j2
+    dest: '/etc/cron.d/attic'
+    owner: root
+    group: root
+    mode: 0600
+    follow: yes
+  when: "{{ attic_is_borg }} == False"
+  tags:
+    - install
+    - cron
+
+- name: adding borg cron
+  template:
+    src: borg_cron.j2
+    dest: '/etc/cron.d/borg'
+    owner: root
+    group: root
+    mode: 0600
+    follow: yes
+  when: "{{ attic_is_borg }} == True"
+  tags:
+    - install
+    - cron
+
+- name: remove borg cron
+  file:
+    path: '/etc/cron.d/borg'
+    state: absent
+  when: "{{ attic_is_borg }} == False"
+  tags:
+    - install
+    - cron
+
+- name: remove attic cron
+  file:
+    path: '/etc/cron.d/attic'
+    state: absent
+  when: "{{ attic_is_borg }} == True"
+  tags:
+    - install
+    - cron

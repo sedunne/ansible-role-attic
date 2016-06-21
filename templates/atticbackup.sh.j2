@@ -1,0 +1,21 @@
+# {{ ansible_managed }}
+#!/bin/bash
+LOGFILE={{ attic_log_path }}
+REPOSITORY={{ attic_server_user }}@{{ attic_server_name }}:{{ ansible_nodename }}.{% if attic_is_borg == True %}borg{% else %}attic{% endif %}
+
+echo "--------------------" >> $LOGFILE
+echo -n "BEGIN " >> $LOGFILE; echo "$(date)" >> $LOGFILE
+
+# bad way to not have to manually create the repo on the server
+# multiple init on the same repo just produces error - doesn't overwrite anything
+{{ attic_bin_name }} {{ attic_init_command }} $REPOSITORY 2>&1 > /dev/null
+
+{{ attic_bin_name }} {{ attic_create_command }} $REPOSITORY::"$(date)" {{ attic_backup_path }} 2>&1 >> $LOGFILE
+
+echo "" >> $LOGFILE
+
+{{ attic_bin_name }} {{ attic_prune_command }} --keep-daily={{ attic_days_keep }} $REPOSITORY 2>&1 >> $LOGFILE
+
+echo "" >> $LOGFILE
+echo -n "END " >> $LOGFILE; echo "$(date)" >> $LOGFILE
+echo "--------------------" >> $LOGFILE

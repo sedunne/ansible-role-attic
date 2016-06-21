@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: Stephen Dunne III
+  description: 'Install and manage Attic or Borg backups.'
+  license: MIT
+  min_ansible_version: 2.0
+  platforms:
+    - name: GenericLinux
+      versions:
+        - all
+    - name: EL
+      versions:
+        - 6
+        - 7
+  galaxy_tags:
+    - attic
+    - borg
+    - backup
+    - system
+
+dependencies: []
+
